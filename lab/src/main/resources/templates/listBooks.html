@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+           xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Book Reservation - Welcome and choose a Book</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        .book-option {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .book-option:hover {
+            background-color: #f5f5f5;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Book Reservation App</h1>
+</header>
+<main>
+    <form action="/bookReservation" method="POST">
+        <h2>Choose a book:</h2>
+            <ul>
+                <li th:each="book : ${books}" class="book-option">
+                    <input type="radio" name="selectedBook" th:value="${book.getTitle()}" th:id="${'book' + book.getTitle()}" required>
+                    <label th:for="${'book' + book.getTitle()}" th:text="${book.toString()}"></label>
+                </li>
+            </ul>
+
+        <h2>Enter your information:</h2>
+        <label for="readerName">Your Name:</label>
+        <input id="readerName" type="text" name="readerName" required><br/>
+        <label for="readerAddress">Your Address:</label>
+        <input id="readerAddress" type="text" name="readerAddress" required><br/>
+
+        <h2>Choose number of copies:</h2>
+        <input id="numCopies" type="number" name="numCopies" min="1" max="10" required><br/>
+        <br/>
+        <input type="submit" value="Reserve Book">
+    </form>
+
+    <form action="/" method="POST">
+        <h3>Search for books</h3>
+        <label for="matchedText">Text you want to match</label>
+        <input id="matchedText" type="text" name="matchedText"><br/>
+        <label for="matchedRating">Enter minimum rating</label>
+        <input id="matchedRating" type="number" name="matchedRating" min="0" max="10"><br/>
+        <input type="submit" value="Search">
+    </form>
+
+    <div th:if="${matchedBooks != null and matchedBooks.isEmpty()}">
+        <h4>No results</h4>
+    </div>
+
+    <div th:if="${matchedBooks != null and !matchedBooks.isEmpty()}">
+        <h4>Search results</h4>
+        <ul>
+            <li th:each="match : ${matchedBooks}" th:text="${match.toString()}" class="book-option"></li>
+        </ul>
+    </div>
+</main>
+</body>
+</html>
