@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mk.ukim.finki.wp.lab.model.Book;
 import mk.ukim.finki.wp.lab.service.impl.BookServiceImpl;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -32,32 +33,29 @@ public class BookListServlet extends HttpServlet {
 
         WebContext context = new WebContext(webExchange);
 
-        context.setVariable("books", bookService.listAll());
-        context.setVariable("matchedBooks", List.of());
+        String text = req.getParameter("text");
+        String ratingParam = req.getParameter("rating");
+        double rating = 0.0;
+        if (ratingParam != null){
+            try {
+                rating = Double.parseDouble(ratingParam);
+            } catch (NumberFormatException e){}
+        }
+
+        List<Book> books = (text == null || ratingParam == null)
+                ? bookService.listAll()
+                : bookService.searchBooks(text, rating);
+
+
+        context.setVariable("books", books);
         springTemplateEngine.process("listBooks.html", context, resp.getWriter());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        IWebExchange webExchange = JakartaServletWebApplication
-                .buildApplication(getServletContext())
-                .buildExchange(req, resp);
-
-        WebContext context = new WebContext(webExchange);
         String text = req.getParameter("matchedText");
-        if (text == null) text = "";
-        double rating = 0.0;
-        try {
-            rating = Double.parseDouble(req.getParameter("matchedRating"));
-        } catch (NumberFormatException e) {
-            rating = 0.0;
-        }
-        context.setVariable("books", bookService.listAll());
-        context.setVariable("matchedBooks", bookService.searchBooks(text, rating));
-        springTemplateEngine.process("listBooks.html", context, resp.getWriter());
+        String rating = req.getParameter("matchedRating");
+        String url = String.format("/?text=%s&rating=%s", text, rating);
+        resp.sendRedirect(url);
     }
-
-
-
-
 }

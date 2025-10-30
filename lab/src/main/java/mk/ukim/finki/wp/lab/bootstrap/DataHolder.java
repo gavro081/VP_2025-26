@@ -18,12 +18,13 @@ public class DataHolder {
     public void init(){
         Random random = new Random();
         String []genres = new String[]{"comedy", "romance", "drama"};
+        String []names = new String[]{"name", "kniga", "book"};
         for (int i = 0; i < 10; i++) {
-            int genreIndex = random.nextInt() % 3;
-            if (genreIndex < 0) genreIndex *= -1;
+            int nameIndex = random.nextInt(3);
+            int genreIndex = random.nextInt(3);
             double rand = random.nextDouble() * 10;
             double rating = Math.round(rand * 100.0) / 100.0;
-            Book book = new Book("kniga" + i, genres[genreIndex], rating);
+            Book book = new Book(names[nameIndex] + i, genres[genreIndex], rating);
             books.add(book);
         }
     }
