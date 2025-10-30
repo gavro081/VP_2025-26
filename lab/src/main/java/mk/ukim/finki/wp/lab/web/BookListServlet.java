@@ -30,9 +30,7 @@ public class BookListServlet extends HttpServlet {
         IWebExchange webExchange = JakartaServletWebApplication
                 .buildApplication(getServletContext())
                 .buildExchange(req, resp);
-
         WebContext context = new WebContext(webExchange);
-
         String text = req.getParameter("text");
         String ratingParam = req.getParameter("rating");
         double rating = 0.0;

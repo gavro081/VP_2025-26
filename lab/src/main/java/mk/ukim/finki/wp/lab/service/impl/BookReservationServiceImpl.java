@@ -1,5 +1,6 @@
 package mk.ukim.finki.wp.lab.service.impl;
 
+import mk.ukim.finki.wp.lab.model.Book;
 import mk.ukim.finki.wp.lab.model.BookReservation;
 import mk.ukim.finki.wp.lab.repository.impl.InMemoryBookReservationRepository;
 import mk.ukim.finki.wp.lab.service.BookReservationService;
@@ -14,7 +15,7 @@ public class BookReservationServiceImpl implements BookReservationService {
     }
 
     @Override
-    public BookReservation placeReservation(String bookTitle, String readerName, String readerAddress, int numberOfCopies) {
-        return inMemoryBookReservationRepository.save(new BookReservation(bookTitle, readerName, readerAddress, (long) numberOfCopies));
+    public BookReservation placeReservation(Book book, String readerName, String readerAddress, int numberOfCopies) {
+        return inMemoryBookReservationRepository.save(new BookReservation(book, readerName, readerAddress, (long) numberOfCopies));
     }
 }
