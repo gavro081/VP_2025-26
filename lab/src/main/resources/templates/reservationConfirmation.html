@@ -32,6 +32,10 @@
     tr:nth-child(even) {
       background-color: #f2f2f2;
     }
+    #back{
+      text-align: center;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -60,6 +64,9 @@
       <td th:text="${numCopies}"></td>
     </tr>
   </table>
+  <div id="back">
+    <a th:href="@{'/books'}">Back to books</a>
+  </div>
 </section>
 </body>
 </html>

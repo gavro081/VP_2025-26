@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.lab.bootstrap;
 
 import jakarta.annotation.PostConstruct;
+import mk.ukim.finki.wp.lab.model.Author;
 import mk.ukim.finki.wp.lab.model.Book;
 import mk.ukim.finki.wp.lab.model.BookReservation;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,14 @@ import java.util.Random;
 public class DataHolder {
     public static List<Book> books = new ArrayList<>();
     public static List<BookReservation> reservations = new ArrayList<>();
-
+    public static List<Author> authors = List.of(
+            new Author(1L, "filip", "gavrilovski",
+                    "MK", "lorem ipsum"),
+            new Author(2L, "aleksandar", "gavrilovski",
+                    "MK", "ipsum lorem"),
+            new Author(3L, "dimi", "arsov",
+                    "MK", "nz")
+    );
     @PostConstruct
     public void init(){
         Random random = new Random();
@@ -22,9 +30,13 @@ public class DataHolder {
         for (int i = 0; i < 10; i++) {
             int nameIndex = random.nextInt(3);
             int genreIndex = random.nextInt(3);
+            int authorIndex = random.nextInt(3);
             double rand = random.nextDouble() * 10;
             double rating = Math.round(rand * 100.0) / 100.0;
-            Book book = new Book(names[nameIndex] + i, genres[genreIndex], rating);
+            Book book = new Book(names[nameIndex] + i,
+                    genres[genreIndex],
+                    rating,
+                    authors.get(authorIndex));
             books.add(book);
         }
     }
