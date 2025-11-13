@@ -22,4 +22,10 @@ public class AuthorRepositoryImpl implements AuthorRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public void incrementLikesById(Long id){
+        Author author = getById(id);
+        author.setLikes(author.getLikes() + 1);
+    }
 }

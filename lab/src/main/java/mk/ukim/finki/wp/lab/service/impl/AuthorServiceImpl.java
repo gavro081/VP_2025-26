@@ -24,4 +24,9 @@ public class AuthorServiceImpl implements AuthorService {
     public Author findByID(Long id) {
         return authorRepository.getById(id);
     }
+
+    @Override
+    public void incrementLikesByAuthor(Long id) {
+        authorRepository.incrementLikesById(id);
+    }
 }

@@ -7,4 +7,5 @@ import java.util.List;
 public interface AuthorService {
     public List<Author> findAll();
     public Author findByID(Long id);
+    public void incrementLikesByAuthor(Long id);
 }

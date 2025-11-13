@@ -8,4 +8,5 @@ import java.util.List;
 public interface AuthorRepository {
     public List<Author> findAll();
     public Author getById(Long id);
+    public void incrementLikesById(Long id);
 }
